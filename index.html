@@ -1457,35 +1457,27 @@ a.btn{text-decoration:none;}
   </div>
 </div>
 
-  <footer>
-    <p>Number of Visitors reaches: <span id="view-counter">...</span> times.</p>
+  <footer style="text-align: center; padding: 20px; font-family: sans-serif;">
+    <p>Total Visitors: <strong id="visitor-count">...</strong></p>
 </footer>
 
-<!-- 1. Load the official CounterAPI library -->
-<script src="https://cdn.jsdelivr.net/npm/counterapi/dist/counter.browser.min.js"></script>
-
-<!-- 2. Run the count logic -->
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Initialize with a unique workspace name (e.g., your name or site name)
-        const counter = new Counter({ 
-            workspace: 'https://maherjas.github.io/Oryx-najah-expo/' 
+    // Customize "my_website_name" to something unique so your stats are private
+    const siteKey = "NajahExpo2026"; 
+
+    fetch(`https://counterapi.dev{siteKey}/increment`)
+        .then(response => response.json())
+        .then(data => {
+            // Displays the live count in the 'visitor-count' element
+            document.getElementById("visitor-count").innerText = data.pageview;
+        })
+        .catch(error => {
+            document.getElementById("visitor-count").innerText = "1";
+            console.error("Counter Error:", error);
         });
-
-        const counterElement = document.getElementById('view-counter');
-
-        // This increments the 'page-views' counter by 1 and pulls the live total
-        counter.up('page-views')
-            .then(result => {
-                // The API structure returns the data under 'result.data.up_count'
-                counterElement.textContent = result.data.up_count;
-            })
-            .catch(error => {
-                counterElement.textContent = "1";
-                console.error('Counter API Error:', error.message);
-            });
-    });
 </script>
+
+
 
 
 <script>
