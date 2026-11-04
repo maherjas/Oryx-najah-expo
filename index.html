@@ -1458,23 +1458,33 @@ a.btn{text-decoration:none;}
 </div>
 
   <footer>
-    <p>This page has been viewed <span id="visitor-count">...</span> times.</p>
+    <p>Number of Visitors reaches: <span id="view-counter">...</span> times.</p>
 </footer>
 
-<script>
-    // Replace '://yourwebsite.com' with a unique name for your page
-    const pageNamespace = "https://maherjas.github.io/Oryx-najah-expo/"; 
+<!-- 1. Load the official CounterAPI library -->
+<script src="https://cdn.jsdelivr.net/npm/counterapi/dist/counter.browser.min.js"></script>
 
-    fetch(`https://countapi.xyz{pageNamespace}/visits`)
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById("visitor-count").innerText = data.value;
-        })
-        .catch(error => {
-            // Fallback if the free API is offline
-            document.getElementById("visitor-count").innerText = "1"; 
-            console.error("Counter error:", error);
+<!-- 2. Run the count logic -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize with a unique workspace name (e.g., your name or site name)
+        const counter = new Counter({ 
+            workspace: 'https://maherjas.github.io/Oryx-najah-expo/' 
         });
+
+        const counterElement = document.getElementById('view-counter');
+
+        // This increments the 'page-views' counter by 1 and pulls the live total
+        counter.up('page-views')
+            .then(result => {
+                // The API structure returns the data under 'result.data.up_count'
+                counterElement.textContent = result.data.up_count;
+            })
+            .catch(error => {
+                counterElement.textContent = "1";
+                console.error('Counter API Error:', error.message);
+            });
+    });
 </script>
 
 
