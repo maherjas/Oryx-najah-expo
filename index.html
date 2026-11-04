@@ -1457,6 +1457,27 @@ a.btn{text-decoration:none;}
   </div>
 </div>
 
+  <footer>
+    <p>This page has been viewed <span id="visitor-count">...</span> times.</p>
+</footer>
+
+<script>
+    // Replace '://yourwebsite.com' with a unique name for your page
+    const pageNamespace = "yourwebsite_com_unique_page_id"; 
+
+    fetch(`https://countapi.xyz{pageNamespace}/visits`)
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("visitor-count").innerText = data.value;
+        })
+        .catch(error => {
+            // Fallback if the free API is offline
+            document.getElementById("visitor-count").innerText = "1"; 
+            console.error("Counter error:", error);
+        });
+</script>
+
+
 <script>
 /* ============ LEADERBOARD CONFIG ============ */
 const LB_CONFIG = {
