@@ -1457,24 +1457,32 @@ a.btn{text-decoration:none;}
   </div>
 </div>
 
-  <footer style="text-align: center; padding: 20px; font-family: sans-serif;">
-    <p>Total Visitors: <strong id="visitor-count">...</strong></p>
+ <footer style="text-align: center; padding: 20px; font-family: sans-serif;">
+  <p>Total Visitors: <strong id="visitor-count">...</strong></p>
 </footer>
 
 <script>
-    // Customize "my_website_name" to something unique so your stats are private
-    const siteKey = "NajahExpo2026"; 
+  // Free, key-free counter API (Abacus — CountAPI successor)
+  // /hit increments and returns the new value.
+  const COUNTER_NAMESPACE = "najahexpo2026";   // keep this unique to your site
+  const COUNTER_KEY = "visitors";
 
-    fetch(`https://counterapi.dev{siteKey}/increment`)
-        .then(response => response.json())
-        .then(data => {
-            // Displays the live count in the 'visitor-count' element
-            document.getElementById("visitor-count").innerText = data.pageview;
-        })
-        .catch(error => {
-            document.getElementById("visitor-count").innerText = "1";
-            console.error("Counter Error:", error);
-        });
+  const countEl = document.getElementById("visitor-count");
+
+  fetch(`https://abacus.jasoncameron.dev/hit/${COUNTER_NAMESPACE}/${COUNTER_KEY}`)
+    .then(res => {
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      return res.json();
+    })
+    .then(data => {
+      // Abacus returns { "value": 123 }
+      countEl.textContent = data.value;
+    })
+    .catch(err => {
+      console.error("Counter error:", err);
+      // Fallback so the page never shows a broken counter
+      countEl.textContent = "1";
+    });
 </script>
 
 
